@@ -413,45 +413,33 @@ get_header();
         <div class="col-sm-12 text-center front-p">
             <div class="review-slider flexslider">
             <ul class="slides">
-                <li>
-                    <div class="block-review">
-                        <h2 class="white h2-s-1 mb-5">Chicago magazine</h2>
-                        <p>It’s an unlikely setting for an exquisite dining experience—served up by a couple straight out of a rom-com plot. </p>
-                        <ul class="block-star mt-10">
-                        <li><i class="icon-star"></i></li>
-                        <li><i class="icon-star"></i></li>
-                        <li><i class="icon-star"></i></li>
-                        <li><i class="icon-star"></i></li>
-                        <li><i class="icon-star-empty"></i></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <div class="block-review">
-                        <h2 class="white h2-s-1 mb-5">The telegraph</h2>
-                        <p>The food is plentiful and delicious, it is all part of the "old world" sort of dining experience. </p>
-                        <ul class="block-star mt-10">
-                        <li><i class="icon-star"></i></li>
-                        <li><i class="icon-star"></i></li>
-                        <li><i class="icon-star"></i></li>
-                        <li><i class="icon-star-empty"></i></li>
-                        <li><i class="icon-star-empty"></i></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <div class="block-review">
-                        <h2 class="white h2-s-1 mb-5">Magazin restaurant</h2>
-                        <p>Huge portions, great food, fast service. This location obviously is always packed due to being in Times Sq. </p>
-                        <ul class="block-star mt-10">
-                        <li><i class="icon-star"></i></li>
-                        <li><i class="icon-star"></i></li>
-                        <li><i class="icon-star"></i></li>
-                        <li><i class="icon-star"></i></li>
-                        <li><i class="icon-star-half"></i></li>
-                        </ul>
-                    </div>
-                </li>
+                <?php 
+                
+                $args = array(
+                    'post_type' => 'review',
+                    'posts_per_page' => -1
+                );
+                $queries = new WP_Query($args);
+
+                while($queries->have_posts()){
+                    $queries->the_post(); ?>
+                    <li>
+                        <div class="block-review">
+                            <h2 class="white h2-s-1 mb-5"><?php esc_html(the_title()); ?></h2>
+                            <p><?php esc_html(the_content()); ?></p>
+                            <ul class="block-star mt-10">
+                                <?php $ratings = get_field('ratings'); 
+                                    for($i=0; $i<$ratings; $i++){?>
+                                        <li><i class="icon-star"></i></li>
+                                    <?php }
+                                ?>
+                            </ul>
+                        </div>
+                    </li>
+                <?php }
+                    wp_reset_postdata(  );
+                ?>
+
             </ul>
             </div>
         </div>
@@ -479,43 +467,47 @@ get_header();
 <div class=" container">
     <!--Row-->
     <div class="row">
-        <div class="col-md-4  pd-0 block-special">
-            <div class="block-img special">
-            <div class="background-img">
-                <img src="img/7.jpg" alt="">
-            </div>
-            </div>
-            <div class="block-content special sp-1">
-            <h2 class="mb-5  h2-s-1">Pepperoni Pasta  </h2>
-            <p>Mango, Passion Fruit, Pineapple and Coconut All Blended with Ice.</p>
-            <span class="block-price special">$14</span>
-            <span class="block-border "></span>
-            </div>
-        </div>
-        <div class="col-md-4  pd-0 block-special active ">
-            <div class="block-img special">
-            <div class="background-img">
-                <img src="img/8.jpg" alt="">
-            </div>
-            </div>
-            <div class="block-content special sp-2">
-            <h2 class="mb-5  h2-s-1">Mushroom steak  </h2>
-            <p>Mango, Passion Fruit, Pineapple and Coconut All Blended with Ice.</p>
-            <span class="block-price special">$55</span>
-            </div>
-        </div>
-        <div class="col-md-4  pd-0 block-special">
-            <div class="block-img special">
-            <div class="background-img">
-                <img src="img/9.jpg" alt="">
-            </div>
-            </div>
-            <div class="block-content special sp-3">
-            <h2 class="mb-5  h2-s-1">Ham Benedict  </h2>
-            <p>Mango, Passion Fruit, Pineapple and Coconut All Blended with Ice.</p>
-            <span class="block-price special">$34</span>
-            </div>
-        </div>
+        <?php 
+        
+        $args = array(
+            'post_type' => 'special',
+            'posts_per_page' => -1
+        );
+        $specials = new WP_Query($args);
+        while($specials->have_posts()){
+            $specials->the_post();
+            $posts_count = $specials->found_posts; 
+
+            $items_included = get_field('items_included');
+            $items_counter = count($items_included);
+            $is_active = get_field('active');
+     
+            ?>
+
+                <div class="col-md-4  pd-0 block-special <?php if($is_active){echo 'active';} ?>">
+                     <div class="block-img special">
+                        <div class="background-img">
+                           <img src="<?php echo the_post_thumbnail_url(); ?>" alt="<?php the_title(); ?>">
+                        </div>
+                     </div>
+                     <div class="block-content special sp-2">
+                        <h2 class="mb-5  h2-s-1"><?php esc_html(the_title()); ?>  </h2>
+                        <?php 
+                        for($i=0; $i<$items_counter; $i++){?>
+                            <p><?php echo $items_included[$i]['special_items']; ?></p>
+                        <?php }
+                        
+                        ?>
+                        <span class="block-price special"><?php echo esc_html(get_field('price')); ?></span>
+                     </div>
+                  
+                 </div>
+            
+        <?php }
+            wp_reset_postdata(  );
+        ?>
+        
+
     </div>
     <!--End row-->
 </div>

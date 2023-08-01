@@ -1,5 +1,7 @@
 <?php 
 
+require_once get_theme_file_path( '/inc/tgm.php' );
+
 function tasty_theme_setup(){
     load_theme_textdomain('tasty', get_theme_file_uri('/languages'));
     add_theme_support( 'title-tag' );
@@ -8,7 +10,9 @@ function tasty_theme_setup(){
     add_theme_support( 'post-thumbnails' );
     add_theme_support('html5', array('comment-form', 'search-form'));
     add_theme_support( 'post-formats', array( 'aside', 'gallery', 'image', 'video', 'quote', 'audio', 'link' ) );
+    add_image_size( 'meal-chef-special', 400,250,true );
 }
+    
 
 add_action('after_setup_theme', 'tasty_theme_setup');
 
