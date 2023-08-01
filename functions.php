@@ -1,6 +1,8 @@
 <?php 
 
 require_once get_theme_file_path( '/inc/tgm.php' );
+require_once get_theme_file_path('/lib/codestar-framework/codestar-framework.php') ;
+require_once get_theme_file_path('/inc/theme-options.php');
 
 function tasty_theme_setup(){
     load_theme_textdomain('tasty', get_theme_file_uri('/languages'));

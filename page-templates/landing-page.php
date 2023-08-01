@@ -73,222 +73,31 @@ get_header();
 <!--End container-->
 </section>
 <!--End short reservation section-->
+
 <!--Menu section-->
 <section id="menu" class="menu pt-120 pb-120 ">
-<!--Container-->
-<div class="container">
-    <!--Row-->
-    <div class="row">
-        <div class="col-sm-12  mb-100 text-center">
-            <h1 class="title"> Tasty menu</h1>
-            <p class="beige">Variety of delicious plate</p>
-        </div>
-    </div>
-    <!--End row-->
-</div>
-<!--End container-->
-<!--Container-->
-<!--Container-->
-<div class="container">
-        <!--Row-->
-        <div class="row">
-            <div class="col-sm-12 ">
-                <!--Tabs-->
-                <ul class="block-tabs text-center">
-                    <?php 
-                        $menu_cats = get_terms('type');
-                        $menu_counter = 0;
-                        foreach($menu_cats as $category){ $menu_counter++;?>
-                            <li class="<?php if($menu_counter == 1) echo 'active'; ?>"><?php echo $category->name; ?></li>
-                        <?php }
-                    ?>
-                </ul>
-            </div>
-        </div>
-        <!--End row-->
-</div>
-<!--End container-->
-<!--Container-->
-<div class="container">
-        <!--Row-->
-        <div class="row">
-            <ul class="block-tab mt-40">
 
-                <?php 
-                    $menu_cats = get_terms('type');
-                    $menu_counter = 0;
-                    foreach($menu_cats as $category){ $menu_counter++;?>
-                        <!--Menu list-->
-                        <li class="<?php if($menu_counter == 1) echo 'active'; ?>" block-list">
-                        <?php 
-                        
-                            $args = array(
-                                'posts_per_page' => -1,
-                                'post_type' => 'menu',
-                                'order' => 'ASC',
-                                'tax_query' => array(
-                                    array(
-                                        'taxonomy' => 'type',
-                                        'field' => 'slug',
-                                        'terms' => $category->name
-                                        
-                                    )
-                                )
-                            );
+    <?php get_template_part('/section-templates/tasty-menu'); ?>
 
-                            $menu_queries = new WP_Query($args);
-                            while($menu_queries->have_posts()){
-                                $menu_queries->the_post(); ?>
-
-                            <div class="col-sm-5  col-sm-offset-1 text-center">
-                                <div class="block-cat">
-                                    <h2 class="mb-30"><?php esc_html(the_title()); ?> </h2>
-                                </div>
-                                <?php 
-                                
-                                    $menu_lists = get_field('menu_lists');
-                                    foreach($menu_lists as $list){?>
-                                        <div class="block-content pb-25 mb-25">
-                                            <h2 class="mb-5 "><?php echo esc_html($list['type_of_menu']); ?> </h2>
-                                            <p><?php echo esc_html($list['menu_details']); ?></p>
-                                            <span class="block-price"><?php echo esc_html($list['menu_price']); ?></span> 
-                                            <span class="dots"></span>
-                                        </div>
-                                    <?php }
-                                ?>
-                                
- 
-                            </div>
-                            <?php }
-                            wp_reset_postdata(  );
-                        ?>
-
-                        </li>
-                    <?php }
-                ?>
-                
-                <!--Menu list-->
-            </ul>
-            <!--End tabs-->
-        </div>
-               <!--End row-->
-</div>
-<!--End container-->
 </section>
 <!--End menu section-->
+
 <!--Review section-->
 <section class="review pt-120 pb-120 overlay">
-<div class="background-img zoom" >
-    <img src="img/6.jpg" alt="">
-</div>
-<!--Container-->
-<div class="container">
-    <!--Row-->
-    <div class="row">
-        <div class="col-sm-12 text-center front-p">
-            <div class="review-slider flexslider">
-            <ul class="slides">
-                <?php 
-                
-                $args = array(
-                    'post_type' => 'review',
-                    'posts_per_page' => -1
-                );
-                $queries = new WP_Query($args);
 
-                while($queries->have_posts()){
-                    $queries->the_post(); ?>
-                    <li>
-                        <div class="block-review">
-                            <h2 class="white h2-s-1 mb-5"><?php esc_html(the_title()); ?></h2>
-                            <p><?php esc_html(the_content()); ?></p>
-                            <ul class="block-star mt-10">
-                                <?php $ratings = get_field('ratings'); 
-                                    for($i=0; $i<$ratings; $i++){?>
-                                        <li><i class="icon-star"></i></li>
-                                    <?php }
-                                ?>
-                            </ul>
-                        </div>
-                    </li>
-                <?php }
-                    wp_reset_postdata(  );
-                ?>
+    <?php get_template_part('/section-templates/review'); ?>
 
-            </ul>
-            </div>
-        </div>
-    </div>
-    <!--End row-->
-</div>
-<!--End container-->
 </section>
 <!--End reviews section-->
+
 <!--Special section-->
 <section  id="special" class="special pt-120 pb-120">
-<!--Container-->
-<div class="container">
-    <!--Row-->
-    <div class="row">
-        <div class="col-sm-12 text-center mb-100">
-            <h1 class="title">Today's special</h1>
-            <p class="beige">Special plate by the chef</p>
-        </div>
-    </div>
-    <!--End row-->
-</div>
-<!--End container-->
-<!--Container-->
-<div class=" container">
-    <!--Row-->
-    <div class="row">
-        <?php 
-        
-        $args = array(
-            'post_type' => 'special',
-            'posts_per_page' => -1
-        );
-        $specials = new WP_Query($args);
-        while($specials->have_posts()){
-            $specials->the_post();
-            $posts_count = $specials->found_posts; 
 
-            $items_included = get_field('items_included');
-            $items_counter = count($items_included);
-            $is_active = get_field('active');
-     
-            ?>
+    <?php get_template_part('/section-templates/special'); ?>
 
-                <div class="col-md-4  pd-0 block-special <?php if($is_active){echo 'active';} ?>">
-                     <div class="block-img special">
-                        <div class="background-img">
-                           <img src="<?php echo the_post_thumbnail_url(); ?>" alt="<?php the_title(); ?>">
-                        </div>
-                     </div>
-                     <div class="block-content special sp-2">
-                        <h2 class="mb-5  h2-s-1"><?php esc_html(the_title()); ?>  </h2>
-                        <?php 
-                        for($i=0; $i<$items_counter; $i++){?>
-                            <p><?php echo $items_included[$i]['special_items']; ?></p>
-                        <?php }
-                        
-                        ?>
-                        <span class="block-price special"><?php echo esc_html(get_field('price')); ?></span>
-                     </div>
-                  
-                 </div>
-            
-        <?php }
-            wp_reset_postdata(  );
-        ?>
-        
-
-    </div>
-    <!--End row-->
-</div>
-<!--End container-->
 </section>
 <!--End special section-->
+
 <!--Reservation section-->
 <section id="reservation" class="reservation pt-140 pb-140 bg-grey">
 <!--Container-->
