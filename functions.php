@@ -13,6 +13,7 @@ function tasty_theme_setup(){
     add_theme_support('html5', array('comment-form', 'search-form'));
     add_theme_support( 'post-formats', array( 'aside', 'gallery', 'image', 'video', 'quote', 'audio', 'link' ) );
     add_image_size( 'meal-chef-special', 400,250,true );
+    add_image_size( 'meal-about-photo', 460,300,true );
 
     register_nav_menu( 'primary', __('Primary Menu', 'meal') );
 }

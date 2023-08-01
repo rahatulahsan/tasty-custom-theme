@@ -1,5 +1,11 @@
 <div class="background-img zoom" >
-    <img src="img/6.jpg" alt="">
+    <?php 
+    
+    $options = get_option( 'theme-options' ); 
+    $reviews_bg = $options['reviews-bg'];
+
+    ?>
+    <img src="<?php echo esc_url($reviews_bg); ?>" alt="">
 </div>
 <!--Container-->
 <div class="container">
