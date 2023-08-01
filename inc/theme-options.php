@@ -178,4 +178,19 @@ if( class_exists( 'CSF' ) ) {
     )
   ) );
 
+   //
+  // Create a section (Gallery)
+  CSF::createSection( $prefix, array(
+    'title'  => 'Gallery',
+    'fields' => array(
+
+        array(
+            'id'    => 'meal-gallery',
+            'type'  => 'gallery',
+            'title' => 'Gallery',
+          ),
+
+    )
+  ) );
+
 }
