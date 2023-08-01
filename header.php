@@ -26,24 +26,37 @@
             <!--Main slider-->
             <div class="main-slider slider flexslider">
                <ul class="slides">
-                  <li>
-                     <div class="background-img zoom">
-                        <img src="img/2.jpg" alt="">
-                     </div>
-                  </li>
-                  <li>
-                     <div class="background-img zoom">
-                        <img src="img/1.jpg" alt="">
-                     </div>
-                  </li>
+                  <?php 
+                  
+                  $options = get_option( 'theme-options' );
+                  $gallery_hero = $options['hero-gallery']; 
+                  $gallery_ids = explode( ',', $gallery_hero );
+
+                  if(!empty($gallery_ids)){
+                     foreach($gallery_ids as $hero_gallery_bg){?>
+                        <li>
+                           <div class="background-img zoom">
+                              <img src="<?php echo wp_get_attachment_url( $hero_gallery_bg ); ?>" alt="">
+                           </div>
+                        </li>
+                     <?php }
+                  }
+                  
+                  ?>
+
                </ul>
             </div>
             <!--End main slider-->
             <!--Header-->
             <header class="header default">
-               <div class=" left-part">
+               <div class=" left-part">   
                   <a class="logo scroll" href="#hero">
-                     <h2>tasty</h2>
+                     <?php 
+                     
+                     $logo_name = $options['logo-text'];
+                     
+                     ?>
+                     <h2><?php echo esc_html($logo_name); ?></h2>
                   </a>
                </div>
                <div class="right-part">
@@ -72,8 +85,12 @@
                   <!--Row-->
                   <div class="row">
                      <div class="col-sm-12 text-center">
-                        <h1 class="large">delicious italian food</h1>
-                        <p class="lead">Making delicious italian food since 1990</p>
+                        <?php 
+                        $hero_title = $options['hero-title'];
+                        $hero_subtitle = $options['hero-subtext'];
+                        ?>
+                        <h1 class="large"><?php echo esc_html($hero_title); ?></h1>
+                        <p class="lead"><?php echo esc_html($hero_subtitle); ?></p>
 						
                      </div>
                   </div>

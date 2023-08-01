@@ -4,30 +4,64 @@ if( class_exists( 'CSF' ) ) {
 
   //
   // Set a unique slug-like ID
-  $prefix = 'my_framework';
+  $prefix = 'theme-options';
 
   //
   // Create options
   CSF::createOptions( $prefix, array(
-    'menu_title' => 'My Framework',
-    'menu_slug'  => 'my-framework',
+    'menu_title' => 'Theme Options',
+    'menu_slug'  => 'theme-options',
   ) );
 
   //
   // Create a section
   CSF::createSection( $prefix, array(
-    'title'  => 'Tab Title 1',
+    'id'    => 'header-tab',
+    'title'  => 'Header',
+  ));
+
+   // Create a sub-tab
+   CSF::createSection( $prefix, array(
+    'parent' => 'header-tab',
+    'title'  => 'Logo',
     'fields' => array(
 
-      //
-      // A text field
+      // A textarea field
       array(
-        'id'    => 'opt-text',
+        'id'    => 'logo-text',
         'type'  => 'text',
-        'title' => 'Simple Text',
+        'title' => 'Logo Name',
       ),
 
     )
+    
+  ) );
+
+    // Create a sub-tab
+  CSF::createSection( $prefix, array(
+    'parent' => 'header-tab', // The slug id of the parent section
+    'title'  => 'Hero',
+    'fields' => array(
+
+        array(
+            'id'    => 'hero-gallery',
+            'type'  => 'gallery',
+            'title' => 'Upload Hero Background',
+            'add_title' => 'Add Hero BG'
+          ),
+        array(
+            'id'      => 'hero-title',
+            'type'    => 'text',
+            'title'   => 'Hero Title',
+        ),
+        array(
+            'id'      => 'hero-subtext',
+            'type'    => 'text',
+            'title'   => 'Hero Subtitle',
+        ),
+
+    )
+
   ) );
 
   //
