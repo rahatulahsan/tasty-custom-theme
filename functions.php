@@ -13,6 +13,8 @@ function tasty_theme_setup(){
     add_theme_support('html5', array('comment-form', 'search-form'));
     add_theme_support( 'post-formats', array( 'aside', 'gallery', 'image', 'video', 'quote', 'audio', 'link' ) );
     add_image_size( 'meal-chef-special', 400,250,true );
+
+    register_nav_menu( 'primary', __('Primary Menu', 'meal') );
 }
     
 
@@ -41,3 +43,12 @@ function tasty_assets(){
 }
 
 add_action('wp_enqueue_scripts', 'tasty_assets');
+
+// Filter to add a class in the menu anchor link
+function add_menu_link_class( $atts, $item, $args ) {
+    if (property_exists($args, 'link_class')) {
+      $atts['class'] = $args->link_class;
+    }
+    return $atts;
+  }
+  add_filter( 'nav_menu_link_attributes', 'add_menu_link_class', 1, 3 );

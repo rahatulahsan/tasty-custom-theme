@@ -53,15 +53,14 @@
                            <div class="lines"></div>
                         </a>
                      </div>
-                     <ul>
-                        <li><a class="scroll" href="#wrapper">Home</a></li>
-                        <li><a class="scroll" href="#resto">Resto</a></li>
-                        <li><a class="scroll" href="#menu">Menu</a></li>
-                        <li><a class="scroll" href="#special">Special</a></li>
-                        <li><a class="scroll" href="#reservation">Reservation</a></li>
-                        <li><a class="scroll" href="#gallery">Gallery</a></li>
-                        <li><a class="scroll" href="#contact">Contact</a></li>
-                     </ul>
+                     <?php 
+                     
+                        $navigation = wp_nav_menu(array(
+                           'theme_location' => 'primary',
+                           'link_class' => 'scroll'
+                        ));
+                     
+                     ?>
                   </nav>
                </div>
             </header>
