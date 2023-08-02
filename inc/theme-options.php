@@ -193,4 +193,84 @@ if( class_exists( 'CSF' ) ) {
     )
   ) );
 
+   //
+  // Create a section (Gallery)
+  CSF::createSection( $prefix, array(
+    'title'  => 'Contact',
+    'fields' => array(
+
+        array(
+            'id'    => 'map-location',
+            'type'  => 'text',
+            'title' => 'Map Location',
+          ),
+
+        array(
+          'id'     => 'social-repeater',
+          'type'   => 'repeater',
+          'title'  => 'Social Connections',
+          'fields' => array(
+        
+            array(
+              'id'    => 'social-icon',
+              'type'  => 'icon',
+              'title' => 'Icon'
+            ),
+            array(
+              'id'    => 'social-link',
+              'type'  => 'link',
+              'title' => 'Social Link',
+            ),
+        
+          ),
+        ),
+
+        array(
+          'id'      => 'opening-hour',
+          'type'    => 'text',
+          'title'   => 'Opening Hours',
+        ),
+        array(
+          'id'      => 'additional-content',
+          'type'    => 'textarea',
+          'title'   => 'Additional Info',
+        ),
+        array(
+          'id'      => 'address',
+          'type'    => 'text',
+          'title'   => 'Address',
+        ),
+        array(
+          'id'      => 'phone',
+          'type'    => 'text',
+          'title'   => 'Phone',
+        ),
+        array(
+          'id'      => 'fax',
+          'type'    => 'text',
+          'title'   => 'Fax',
+        ),
+        array(
+          'id'      => 'mail',
+          'type'    => 'text',
+          'title'   => 'Email',
+        ),
+    )
+  ) );
+
+   //
+  // Create a section (Gallery)
+  CSF::createSection( $prefix, array(
+    'title'  => 'Footer',
+    'fields' => array(
+
+      array(
+        'id'    => 'copyright',
+        'type'  => 'wp_editor',
+        'title' => 'Copyright',
+      ),
+
+    )
+  ) );
+
 }

@@ -1,6 +1,10 @@
 <div class="col-md-5 col-md-offset-7 col-sm-5 col-sm-offset-7">
                      <footer class="footer-short mt-40">
-                        <p>	&copy; 2017 all rights reserved - a product of mutationthemes.</p>
+                        <?php 
+                           $options = get_option( 'theme-options' );
+                           $copyrights = $options['copyright'];
+                        ?>
+                        <p><?php echo $copyrights; ?></p>
                      </footer>
                   </div>
                </div>
