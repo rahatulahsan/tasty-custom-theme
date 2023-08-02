@@ -1,10 +1,17 @@
 <!--Container-->
 <div class="container">
+    <?php
+    
+    $options = get_option( 'theme-options' );
+    $about_heading = $options['about-heading'];
+    $about_subheading = $options['about-subheading'];
+    
+    ?>
     <!--Row-->
     <div class="row">
         <div class="col-sm-12 text-center mb-100">
-            <h1 class="title">The restaurant</h1>
-            <p class="beige">Welcome to tasty restaurant</p>
+            <h1 class="title"><?php echo esc_html($about_heading); ?></h1>
+            <p class="beige"><?php echo esc_html($about_subheading); ?></p>
         </div>
     </div>
     <!--End row-->
@@ -14,7 +21,6 @@
 <div class="container">
     <?php 
     
-    $options = get_option( 'theme-options' );
     $about_pic1 = $options['about-photo-1'];
     $about_pic2 = $options['about-photo-2'];
     $about_heading = $options['main-heading'];

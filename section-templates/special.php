@@ -1,10 +1,17 @@
 <!--Container-->
 <div class="container">
+    <?php 
+    
+    $options = get_option( 'theme-options' );
+    $special_heading =$options['special-menu-heading'];
+    $special_subheading =$options['special-subheading'];
+
+    ?>
     <!--Row-->
     <div class="row">
         <div class="col-sm-12 text-center mb-100">
-            <h1 class="title">Today's special</h1>
-            <p class="beige">Special plate by the chef</p>
+            <h1 class="title"><?php echo esc_html($special_heading); ?></h1>
+            <p class="beige"><?php echo esc_html($special_subheading); ?></p>
         </div>
     </div>
     <!--End row-->

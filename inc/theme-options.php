@@ -16,6 +16,103 @@ if( class_exists( 'CSF' ) ) {
   //
   // Create a section
   CSF::createSection( $prefix, array(
+    'id'    => 'headings-subheadings',
+    'title'  => 'Heading & Subheading',
+  ));
+
+  // Create a sub-tab
+  CSF::createSection( $prefix, array(
+    'parent' => 'headings-subheadings',
+    'title'  => 'About',
+    'fields' => array(
+
+      array(
+        'id'    => 'about-heading',
+        'type'  => 'text',
+        'title' => 'About Section Heading',
+      ),
+      array(
+        'id'    => 'about-subheading',
+        'type'  => 'text',
+        'title' => 'About Section Sub Heading',
+      ),
+
+    )
+
+  ) );
+
+  // Create a sub-tab
+  CSF::createSection( $prefix, array(
+    'parent' => 'headings-subheadings',
+    'title'  => 'Tasty Menu',
+    'fields' => array(
+
+      array(
+        'id'    => 'tasty-menu-heading',
+        'type'  => 'text',
+        'title' => 'Menu Section Heading',
+      ),
+      array(
+        'id'    => 'tasty-subheading',
+        'type'  => 'text',
+        'title' => 'Menu Section Sub Heading',
+      ),
+
+    )
+
+  ) );
+
+   // Create a sub-tab
+   CSF::createSection( $prefix, array(
+    'parent' => 'headings-subheadings',
+    'title'  => 'Special Menu',
+    'fields' => array(
+
+      array(
+        'id'    => 'special-menu-heading',
+        'type'  => 'text',
+        'title' => 'Special Section Heading',
+      ),
+      array(
+        'id'    => 'special-subheading',
+        'type'  => 'text',
+        'title' => 'Special Section Sub Heading',
+      ),
+
+    )
+
+  ) );
+
+  // Create a sub-tab
+  CSF::createSection( $prefix, array(
+    'parent' => 'headings-subheadings',
+    'title'  => 'Reservation',
+    'fields' => array(
+
+      array(
+        'id'    => 'reservation-heading',
+        'type'  => 'text',
+        'title' => 'Reservation Section Heading',
+      ),
+      array(
+        'id'    => 'reservation-subheading',
+        'type'  => 'text',
+        'title' => 'Reservation Section Sub Heading',
+      ),
+      array(
+        'id'    => 'reservation-section-header-content',
+        'type'  => 'textarea',
+        'title' => 'Reservation Section Heading Content',
+      ),
+
+    )
+
+  ) );
+
+
+  //
+  // Create a section
+  CSF::createSection( $prefix, array(
     'id'    => 'header-tab',
     'title'  => 'Header',
   ));
@@ -63,6 +160,8 @@ if( class_exists( 'CSF' ) ) {
     )
 
   ) );
+
+  
 
   //
   // Create a section

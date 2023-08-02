@@ -1,10 +1,16 @@
 <!--Container-->
 <div class="container">
+    <?php 
+    
+    $options = get_option( 'theme-options' );
+    $tasty_menu_heading = $options['tasty-menu-heading'];
+    $tasty_menu_subheading = $options['tasty-subheading'];
+    ?>
     <!--Row-->
     <div class="row">
         <div class="col-sm-12  mb-100 text-center">
-            <h1 class="title"> Tasty menu</h1>
-            <p class="beige">Variety of delicious plate</p>
+            <h1 class="title"> <?php echo esc_html($tasty_menu_heading); ?></h1>
+            <p class="beige"> <?php echo esc_html($tasty_menu_subheading); ?></p>
         </div>
     </div>
     <!--End row-->
