@@ -25,6 +25,11 @@
         <div class="col-sm-8 col-sm-offset-2">
             <div class="block-form">
             <form class="reservation-form " method="post" action="send.php">
+                <?php 
+                
+                wp_nonce_field('reservation', 'rn');
+
+                ?>
                 <div class="block-input ico-input">
                     <i class="icon-user-1"></i>
                     <label>Your name:</label>
@@ -78,7 +83,7 @@
                     <!--End column-->
                 </div>
                 <!--End input columns-->
-                <button  class=" but submit" type="submit">Boook a table</button>
+                <button  class=" but submit" id="reservenow" type="submit">Boook a table</button>
 
                     <!--Contact form message-->
                     <div class="success-msg">

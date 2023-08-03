@@ -42,6 +42,14 @@ function tasty_assets(){
     wp_enqueue_script( 'main-script', get_template_directory_uri() . '/assets/js/script.js', array('jquery'), 1.0,true);
     wp_enqueue_script( 'jquery-flexslider-js', get_template_directory_uri() . '/assets/js/jquery.flexslider-min.js', array('jquery'), 1.0,true);
     
+    if(is_page_template( 'page-templates/landing-page.php' )){
+        wp_enqueue_script( 'tasty-reservation-js', get_template_directory_uri() . '/assets/js/reservation.js', array('jquery'), 1.0,true);
+        $ajaxurl = admin_url('admin-ajax.php');
+
+        wp_localize_script( 'tasty-reservation-js', 'url', array('ajaxurl' => $ajaxurl) );
+    }
+    
+
 }
 
 add_action('wp_enqueue_scripts', 'tasty_assets');
@@ -54,3 +62,34 @@ function add_menu_link_class( $atts, $item, $args ) {
     return $atts;
   }
   add_filter( 'nav_menu_link_attributes', 'add_menu_link_class', 1, 3 );
+
+function tasty_process_reservation(){
+
+    if(check_ajax_referer( 'reservation', 'rn')){
+        $name = sanitize_text_field($_POST['name']);
+        $phone = sanitize_text_field($_POST['phone']);
+        $email = sanitize_text_field($_POST['email']);
+        $person = sanitize_text_field($_POST['person']);
+        $table = sanitize_text_field($_POST['table']);
+        $date = sanitize_text_field($_POST['date']);
+        $time = sanitize_text_field($_POST['time']);
+
+        $data = array(
+            'name' => $name,
+            'phone' => $phone,
+            'email' => $email,
+            'person' => $person,
+            'table' => $table,
+            'date' => $date,
+            'time' => $time
+        );
+
+        print_r($data);
+
+    }else{
+        echo "Not allowed";
+    }
+    die();
+}
+add_action('wp_ajax_reservation', 'tasty_process_reservation');
+add_action('wp_ajax_nopriv_reservation', 'tasty_process_reservation');

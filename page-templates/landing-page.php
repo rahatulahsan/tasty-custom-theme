@@ -16,9 +16,12 @@ get_header();
 
 <!--Short reservation section-->
 <section class="short-reservation pt-200 pb-250 overlay">
+
     <?php get_template_part('/section-templates/cta'); ?>
+
 </section>
 <!--End short reservation section-->
+
 
 <!--Menu section-->
 <section id="menu" class="menu pt-120 pb-120 ">
@@ -28,6 +31,7 @@ get_header();
 </section>
 <!--End menu section-->
 
+
 <!--Review section-->
 <section class="review pt-120 pb-120 overlay">
 
@@ -35,6 +39,7 @@ get_header();
 
 </section>
 <!--End reviews section-->
+
 
 <!--Special section-->
 <section  id="special" class="special pt-120 pb-120">
@@ -44,10 +49,11 @@ get_header();
 </section>
 <!--End special section-->
 
+
 <!--Reservation section-->
 <section id="reservation" class="reservation pt-140 pb-140 bg-grey">
 
-    <?php get_template_part('/section-templates/booking'); ?>
+    <?php get_template_part('/section-templates/reservation'); ?>
 
 </section>
 <!--End reservation section-->
