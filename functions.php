@@ -125,33 +125,36 @@ function tasty_process_reservation(){
             echo 'Duplicate';
         }else{
 
+            $wp_error = '';
             $reservation_id = wp_insert_post($reservation_arguments, $wp_error); // wp_insert_post return ID automatically if successfull. 
             
-            // Creating order data for woo-commerce
-            $_name = explode(' ', $name);
-            $order_data = array(
-                'first_name' => $name[0],
-                'last_name' => isset($_name[1])? $_name[1] : '',
-                'email' => $email,
-                'phone' => $phone
-            );
+            if(!$wp_error){
+                // Creating order data for woo-commerce
+                $_name = explode(' ', $name);
+                $order_data = array(
+                    'first_name' => $name[0],
+                    'last_name' => isset($_name[1])? $_name[1] : '',
+                    'email' => $email,
+                    'phone' => $phone
+                );
 
-            // Creating a order
-            $order = wc_create_order();
-            $order->set_address($order_data);
-            $order->add_product(wc_get_product(110), 1); // 110 is the product ID, 1 is the no of product
+                // Creating a order
+                $order = wc_create_order();
+                $order->set_address($order_data, 'billing');
+                $order->add_product(wc_get_product(110), 1); // 110 is the product ID, 1 is the no of product
 
-            // Linking order with reservation
-            $order->set_customer_note('Hello');
+                // Linking order with reservation
+                $order->set_customer_note($reservation_id);
+                
+                $order->calculate_totals();
+
             
-            $order->customer_totals();
-
-        
-            // Setting inverse relation with Reservation
-            add_post_meta($reservation_id, 'order_id', $order->get_id());
-            
-            // Sending customer for checkout and payment
-            echo $order->get_checkout_payment_url();
+                // Setting inverse relation with Reservation
+                add_post_meta($reservation_id, 'order_id', $order->get_id());
+                
+                // Sending customer for checkout and payment
+                echo $order->get_checkout_payment_url();
+            }
         }
 
 
@@ -163,7 +166,7 @@ function tasty_process_reservation(){
 add_action('wp_ajax_reservation', 'tasty_process_reservation');
 add_action('wp_ajax_nopriv_reservation', 'tasty_process_reservation');
 
-
+// Removing Extra Billing and shipping fields
 function tasty_checkout_fields($fields){
 
     unset($fields['billing']['billing_company']);
@@ -189,3 +192,30 @@ function tasty_checkout_fields($fields){
     return $fields;
 }
 add_filter('woocommerce_checkout_fields', 'tasty_checkout_fields');
+
+
+// Changing the Reservation Post title based on Order Status
+function tasty_reservation_order_status_processing($order_id){
+    
+    // getting the order with order_id
+    $order = wc_get_order($order_id);
+
+    // From that order getting the reservation id
+    $reservation_id = $order->get_customer_note();
+    
+    if($reservation_id){
+        //getting the reservation post with that ID
+        $reservation = get_post($reservation_id);
+
+        // Updating the post
+        wp_update_post(array(
+            'ID' => $reservation_id,
+            'post_title' => '[PAID] - '. $reservation->post_title
+        ));
+
+        // Adding a meta value in the reservation
+        add_post_meta($reservation_id, 'paid', 1);
+    }
+}
+
+add_filter('woocommerce_order_status_processing', 'tasty_reservation_order_status_processing');
