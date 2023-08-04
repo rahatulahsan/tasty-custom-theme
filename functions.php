@@ -245,3 +245,12 @@ function tasty_menu_name_change($menu){
     return $menu;
 }
 add_filter('add_menu_classes', 'tasty_menu_name_change');
+
+// Removing the bubble besides reservation when user visit the page
+function tasty_admin_scripts($screen){
+    $_screen = get_current_screen();
+    if('edit.php' == $screen && 'reservation' == $_screen->post_type){
+        delete_transient('reser_count');
+    }
+}
+add_action('admin_enqueue_scripts', 'tasty_admin_scripts');
