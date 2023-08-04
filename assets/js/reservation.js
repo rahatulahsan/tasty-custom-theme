@@ -13,7 +13,11 @@
                 time: $('#time').val(),
                 rn: $('#rn').val()
             },function(data){
-                console.log(data);
+                if('Successful' == data){
+                    alert('Your reservation request has been placed');
+                }else if('Duplicate' == data){
+                    alert('Your have already placed a request. No need to try again');
+                }
             });
 
             return false;

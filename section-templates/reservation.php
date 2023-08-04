@@ -86,7 +86,7 @@
                 <button  class=" but submit" id="reservenow" type="submit">Boook a table</button>
 
                     <!--Contact form message-->
-                    <div class="success-msg">
+                    <div class="success-msg active">
                         <h2>Your message has been sent. Thank you!</h2>
                     </div>
                     <div class="error-msg">

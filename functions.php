@@ -84,7 +84,47 @@ function tasty_process_reservation(){
             'time' => $time
         );
 
-        print_r($data);
+        //print_r($data);
+
+        $reservation_arguments = array(
+            'post_type' => 'reservation',
+            'post_author' => 1,
+            'post_date' => date('Y-m-d H:i:s'),
+            'post_status' => 'publish',
+            'post_title' => sprintf('%s - Reservation for %s persons on %s - %s', $name,$person,$date." : ".$time, $email),
+            'meta_input' => $data
+        );
+
+        // Duplicate Checking with Meta Query
+        $reservations = new WP_Query(array(
+            'post_type' => 'reservation',
+            'post_status' => 'publish',
+            'meta_query' => array(
+                'relation' => 'AND',
+                'email_check' => array(
+                    'key' => 'email',
+                    'value' => $email
+                ),
+                'date_check' => array(
+                    'key' => 'date',
+                    'value' => $date
+                ),
+                'time_check' => array(
+                    'key' => 'time',
+                    'value' => $time
+                )
+            )
+        ));
+
+        if($reservations->found_posts > 0){
+            echo 'Duplicate';
+        }else{
+            wp_insert_post($reservation_arguments);
+            echo 'Successful';
+        }
+
+        
+
 
     }else{
         echo "Not allowed";
