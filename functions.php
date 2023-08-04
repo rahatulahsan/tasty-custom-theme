@@ -128,7 +128,16 @@ function tasty_process_reservation(){
             $wp_error = '';
             $reservation_id = wp_insert_post($reservation_arguments, $wp_error); // wp_insert_post return ID automatically if successfull. 
             
+            //transient check
+            $reservation_count = get_transient('reser_count') ? get_transient('reser_count') : 0;
+            //transient check
+
+
             if(!$wp_error){
+
+                $reservation_count++;
+                set_transient('reser_count',$reservation_count, 0);
+
                 // Creating order data for woo-commerce
                 $_name = explode(' ', $name);
                 $order_data = array(
@@ -219,3 +228,20 @@ function tasty_reservation_order_status_processing($order_id){
 }
 
 add_filter('woocommerce_order_status_processing', 'tasty_reservation_order_status_processing');
+
+// Adding bubble counter with transient
+function tasty_menu_name_change($menu){
+    /*
+    echo '<pre>';
+    print_r($menu);
+    echo '</pre>';
+    die();
+    */
+    $reservation_count = get_transient('reser_count') ? get_transient('reser_count') : 0;
+    if($reservation_count > 0){
+        $menu[7][0] = "Reservation <span class='awaiting-mod'>{$reservation_count}</span>";
+    }
+    
+    return $menu;
+}
+add_filter('add_menu_classes', 'tasty_menu_name_change');
