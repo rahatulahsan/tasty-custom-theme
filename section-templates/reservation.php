@@ -19,7 +19,7 @@
 </div>
 <!--End container-->
 <!--Container-->
-<div class="container">
+<div class="container"> 
     <!--Row-->
     <div class="row">
         <div class="col-sm-8 col-sm-offset-2">
@@ -84,6 +84,7 @@
                 </div>
                 <!--End input columns-->
                 <button  class=" but submit" id="reservenow" type="submit">Boook a table</button>
+                <a href="#" target="_blank" class="btn submit" id="paynow" style="display:none;">Complete Payment</a>
 
                     <!--Contact form message-->
                     <div class="success-msg active">

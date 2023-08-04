@@ -65,6 +65,8 @@ function add_menu_link_class( $atts, $item, $args ) {
 
 function tasty_process_reservation(){
 
+
+    // Matching with Nonce token and gettng data for JS
     if(check_ajax_referer( 'reservation', 'rn')){
         $name = sanitize_text_field($_POST['name']);
         $phone = sanitize_text_field($_POST['phone']);
@@ -74,6 +76,7 @@ function tasty_process_reservation(){
         $date = sanitize_text_field($_POST['date']);
         $time = sanitize_text_field($_POST['time']);
 
+        // Adding gathered data in a array
         $data = array(
             'name' => $name,
             'phone' => $phone,
@@ -86,6 +89,7 @@ function tasty_process_reservation(){
 
         //print_r($data);
 
+        // Making data for making Reservation post
         $reservation_arguments = array(
             'post_type' => 'reservation',
             'post_author' => 1,
@@ -116,14 +120,39 @@ function tasty_process_reservation(){
             )
         ));
 
+        // Checking the data with conditions
         if($reservations->found_posts > 0){
             echo 'Duplicate';
         }else{
-            wp_insert_post($reservation_arguments);
-            echo 'Successful';
-        }
+
+            $reservation_id = wp_insert_post($reservation_arguments, $wp_error); // wp_insert_post return ID automatically if successfull. 
+            
+            // Creating order data for woo-commerce
+            $_name = explode(' ', $name);
+            $order_data = array(
+                'first_name' => $name[0],
+                'last_name' => isset($_name[1])? $_name[1] : '',
+                'email' => $email,
+                'phone' => $phone
+            );
+
+            // Creating a order
+            $order = wc_create_order();
+            $order->set_address($order_data);
+            $order->add_product(wc_get_product(110), 1); // 110 is the product ID, 1 is the no of product
+
+            // Linking order with reservation
+            $order->set_customer_note('Hello');
+            
+            $order->customer_totals();
 
         
+            // Setting inverse relation with Reservation
+            add_post_meta($reservation_id, 'order_id', $order->get_id());
+            
+            // Sending customer for checkout and payment
+            echo $order->get_checkout_payment_url();
+        }
 
 
     }else{
@@ -133,3 +162,30 @@ function tasty_process_reservation(){
 }
 add_action('wp_ajax_reservation', 'tasty_process_reservation');
 add_action('wp_ajax_nopriv_reservation', 'tasty_process_reservation');
+
+
+function tasty_checkout_fields($fields){
+
+    unset($fields['billing']['billing_company']);
+    unset($fields['billing']['billing_address_1']);
+    unset($fields['billing']['billing_address_2']);
+    unset($fields['billing']['billing_city']);
+    unset($fields['billing']['billing_postcode']);
+    unset($fields['billing']['billing_country']);
+    unset($fields['billing']['billing_state']);
+
+    unset($fields['shipping']['shipping_first_name']);
+    unset($fields['shipping']['shipping_last_name']);
+    unset($fields['shipping']['shipping_company']);
+    unset($fields['shipping']['shipping_address_1']);
+    unset($fields['shipping']['shipping_address_2']);
+    unset($fields['shipping']['shipping_city']);
+    unset($fields['shipping']['shipping_postcode']);
+    unset($fields['shipping']['shipping_country']);
+    unset($fields['shipping']['shipping_state']);
+
+    unset($fields['order']['order_comments']);
+
+    return $fields;
+}
+add_filter('woocommerce_checkout_fields', 'tasty_checkout_fields');
