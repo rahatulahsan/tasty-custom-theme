@@ -6,11 +6,32 @@ if( class_exists( 'CSF' ) ) {
   // Set a unique slug-like ID
   $prefix = 'theme-options';
 
+
   //
   // Create options
   CSF::createOptions( $prefix, array(
     'menu_title' => 'Theme Options',
     'menu_slug'  => 'theme-options',
+  ) );
+
+   //
+  // Create a section (License)
+  CSF::createSection( $prefix, array(
+    'title'  => 'License',
+    'fields' => array(
+
+      array(
+        'id'    => 'username',
+        'type'  => 'text',
+        'title' => 'Username',
+      ),
+      array(
+        'id'    => 'purchase-code',
+        'type'  => 'text',
+        'title' => 'Purchase Code',
+      ),
+
+    )
   ) );
 
   //
@@ -358,7 +379,7 @@ if( class_exists( 'CSF' ) ) {
   ) );
 
    //
-  // Create a section (Gallery)
+  // Create a section (Footer)
   CSF::createSection( $prefix, array(
     'title'  => 'Footer',
     'fields' => array(

@@ -1,8 +1,9 @@
 <?php 
-
+require_once get_theme_file_path( '/inc/customizer.php' );
 require_once get_theme_file_path( '/inc/tgm.php' );
 require_once get_theme_file_path('/lib/codestar-framework/codestar-framework.php') ;
 require_once get_theme_file_path('/inc/theme-options.php');
+
 
 function tasty_theme_setup(){
     load_theme_textdomain('tasty', get_theme_file_uri('/languages'));
@@ -254,3 +255,17 @@ function tasty_admin_scripts($screen){
     }
 }
 add_action('admin_enqueue_scripts', 'tasty_admin_scripts');
+
+
+function tasty_custom_css_customizer() {
+
+    $theme_color = get_theme_mod( 'theme_color_setting', '#a68b7c' )
+    ?>
+        <style>
+            .submit {
+                background: <?php echo $theme_color; ?>;
+            }
+        </style>
+    <?php
+}
+add_action('wp_head', 'tasty_custom_css_customizer');
